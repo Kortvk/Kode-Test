@@ -200,14 +200,8 @@ class SearchActivity : MviActivity<SearchView, SearchPresenter>(), SearchView, C
         if (requestCode == MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION){
             for (i in 0 until permissions.size)
                 if (permissions[i] == Manifest.permission.ACCESS_FINE_LOCATION){
-                    if (grantResults[i] == PackageManager.PERMISSION_GRANTED){
+                    if (grantResults[i] == PackageManager.PERMISSION_GRANTED)
                         searchEditText.post { locationPublishSubject.onNext(getSystemService(Context.LOCATION_SERVICE) as LocationManager) }
-                    }
-                    else
-                        ActivityCompat.requestPermissions(this,
-                                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                                MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION)
-                    break
                 }
         }
     }
