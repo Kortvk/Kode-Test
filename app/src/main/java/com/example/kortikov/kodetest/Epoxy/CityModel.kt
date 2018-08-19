@@ -14,22 +14,28 @@ abstract class CityModel : EpoxyModelWithHolder<CityModel.Holder>() {
     @EpoxyAttribute @StringRes
     var text: String? = null
 
+    @EpoxyAttribute @StringRes
+    var airports: String? = null
+
     @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash)
     var clickListener: View.OnClickListener? = null
 
     override fun bind(holder: Holder) {
         super.bind(holder)
         holder.text!!.text = text
+        holder.airports!!.text = airports
 
         holder.view!!.setOnClickListener(clickListener)
     }
 
     class Holder: EpoxyHolder(){
         var text: TextView? = null
+        var airports: TextView? = null
         var view: View? = null
         override fun bindView(itemView: View) {
             text = itemView.findViewById(R.id.title_text)
             view = itemView
+            airports = itemView.findViewById(R.id.airports_text)
         }
 
     }

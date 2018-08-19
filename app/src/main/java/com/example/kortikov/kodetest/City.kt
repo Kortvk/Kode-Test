@@ -8,6 +8,7 @@ import com.google.gson.annotations.SerializedName
 class City() : Parcelable, Comparator<City> {
     constructor(city : String):this(){
         this.city = city
+        this.airport = "Все аэропорты"
     }
 
     @SerializedName("zip")

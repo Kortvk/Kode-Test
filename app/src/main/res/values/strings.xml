@@ -6,7 +6,7 @@
     <string name="date_to">Туда</string>
     <string name="date_from">Обратно</string>
     <string name="adult_string">Взрослый</string>
-    <string name="kid_age_string">2-12 лет</string>
+    <string name="kid_age_string">2–12 лет</string>
     <string name="baby_age_string">до 2-х лет</string>
     <string name="search_flies_string">Найти рейсы</string>
     <string name="error_text">Произошла ошибка</string>
@@ -16,6 +16,7 @@
     <string name="tab_header_to_string">Туда</string>
     <string name="from_city_string">Откуда</string>
     <string name="to_city_string">Куда</string>
+    <string name="select_city_secondary">Выбрать направление</string>
     <string name="select_destination">Выберите точку назначения</string>
     <string name="select_departure">Выберите точку вылета</string>
 </resources>

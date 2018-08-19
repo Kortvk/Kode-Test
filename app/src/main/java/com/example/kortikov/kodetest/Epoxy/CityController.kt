@@ -19,6 +19,7 @@ class CityController(var callback: ClickCallbacks) : Typed3EpoxyController<List<
                 cityGeo{
                     id(ct.id)
                     text(ct.city)
+                    airports(ct.airport)
                     clickListener { t -> callback.onViewClickListener(ct) }
                     btnClickListener { t -> callback.onBtnClickListener() }
                 }
@@ -26,7 +27,7 @@ class CityController(var callback: ClickCallbacks) : Typed3EpoxyController<List<
             else{
                 cityGeo{
                     id(0)
-                    text("Определить ваше местоположение")
+                    text("Определить мою геопозицию")
                     btnClickListener {t -> callback.onBtnClickListener() }
                 }
             }
@@ -36,6 +37,7 @@ class CityController(var callback: ClickCallbacks) : Typed3EpoxyController<List<
             city {
                 id(it.id)
                 text(it.city)
+                airports(it.airport)
                 clickListener { t -> callback.onViewClickListener(it)}
             }
         }

@@ -4,14 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/ripple_effect"
+    android:padding="15dp"
+    android:orientation="vertical"
     android:clickable="true"
     android:focusable="true">
     <TextView
         android:id="@+id/title_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="15dp"
         android:textSize="16sp"
         android:textColor="@android:color/black"/>
+    <TextView
+        android:id="@+id/airports_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:textColor="@color/text_description_color"/>
 
 </LinearLayout>

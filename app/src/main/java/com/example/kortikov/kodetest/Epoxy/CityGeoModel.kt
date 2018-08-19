@@ -17,6 +17,10 @@ abstract class CityGeoModel: EpoxyModelWithHolder<CityGeoModel.Holder>() {
     @StringRes
     var text: String? = null
 
+    @EpoxyAttribute
+    @StringRes
+    var airports: String? = null
+
     @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash)
     var clickListener: View.OnClickListener? = null
 
@@ -26,6 +30,10 @@ abstract class CityGeoModel: EpoxyModelWithHolder<CityGeoModel.Holder>() {
     override fun bind(holder: Holder) {
         super.bind(holder)
         holder.text!!.text = text
+        if(airports != null)
+            holder.airports!!.text = airports
+        else
+            holder.airports!!.visibility = View.GONE
 
         holder.text!!.setOnClickListener(clickListener)
         holder.btn!!.setOnClickListener(btnClickListener)
@@ -33,10 +41,12 @@ abstract class CityGeoModel: EpoxyModelWithHolder<CityGeoModel.Holder>() {
 
     class Holder: EpoxyHolder(){
         var text: TextView? = null
+        var airports: TextView? = null
         var btn: ImageButton? = null
         var view: View? = null
         override fun bindView(itemView: View) {
             text = itemView.findViewById(R.id.geo_name_text)
+            airports = itemView.findViewById(R.id.geo_airports_text)
             btn = itemView.findViewById(R.id.geo_btn)
             view = itemView
         }

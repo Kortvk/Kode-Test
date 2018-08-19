@@ -43,7 +43,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="Все аэропорты"
                     android:textColor="@color/text_description_color"
                     android:textSize="13sp" />
             </LinearLayout>

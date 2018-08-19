@@ -67,16 +67,16 @@ class BuyActivity : MviActivity<BuyView, BuyPresenter>(), BuyView {
             airports_from_text.text = viewState.departureCity!!.airport
         }
         else{
-            city_from_text.text = viewState.departureCity?.city ?: "Откуда"
-            airports_from_text.text = ""
+            city_from_text.text = resources.getString(R.string.from_city_string)
+            airports_from_text.text = resources.getString(R.string.select_city_secondary)
         }
         if (viewState.arriveCity != null){
             city_to_text.text = viewState.arriveCity!!.city
             airports_to_text.text = viewState.arriveCity!!.airport
         }
         else{
-            city_to_text.text = viewState.arriveCity?.city ?: "Куда"
-            airports_to_text.text = ""
+            city_to_text.text = resources.getString(R.string.to_city_string)
+            airports_to_text.text = resources.getString(R.string.select_city_secondary)
         }
 
         if (viewState.errorText != null) {
