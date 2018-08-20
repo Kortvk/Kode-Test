@@ -30,8 +30,11 @@ abstract class CityGeoModel: EpoxyModelWithHolder<CityGeoModel.Holder>() {
     override fun bind(holder: Holder) {
         super.bind(holder)
         holder.text!!.text = text
-        if(airports != null)
+        if(airports != null) {
             holder.airports!!.text = airports
+            holder.view!!.isClickable = true
+            holder.view!!.isFocusable = true
+        }
         else
             holder.airports!!.visibility = View.GONE
 

@@ -70,9 +70,15 @@ class BuyPresenter : MviBasePresenter<BuyView, BuyViewState>() {
                 removeKid,
                 reverseCities,
                 removeReturnDate) )
+
+        val date = Calendar.getInstance()
+        date.add(Calendar.DAY_OF_MONTH, 1)
+        val dateReturn = date.clone() as Calendar
+        dateReturn.add(Calendar.DAY_OF_MONTH, 7)
+
         var initialState = BuyViewState(adultCounter = 1,
-                dateDeparture = Calendar.getInstance(),
-                dateReturn = Calendar.getInstance(),
+                dateDeparture = date,
+                dateReturn = dateReturn,
                 counter = 1)
         var stateObservable = allIntents.scan(initialState, this::viewStateReducer)
         subscribeViewState(stateObservable, BuyView::render)

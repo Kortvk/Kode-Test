@@ -38,17 +38,17 @@ class BuyActivity : MviActivity<BuyView, BuyPresenter>(), BuyView {
         return BuyPresenter()
     }
 
-    var viewState: BuyViewState? = null
+    private var viewState: BuyViewState? = null
 
     companion object {
-        val APP_ID = "83f63a9aa1765c637d7634976e4621d4"
-        val FLY_FROM_KEY = 0
-        val FLY_TO_KEY = 1
+        const val APP_ID = "83f63a9aa1765c637d7634976e4621d4"
+        const val FLY_FROM_KEY = 0
+        const val FLY_TO_KEY = 1
 
-        val DEPARTURE_CITY_KEY = "departue_city_key"
-        val ARRIVE_CITY_KEY = "arrive_city_key"
-        val DEPARTURE_DATE_KEY = "departure_date_key"
-        val RETURN_DATE_KEY = "return_date_key"
+        const val DEPARTURE_CITY_KEY = "departure_city_key"
+        const val ARRIVE_CITY_KEY = "arrive_city_key"
+        const val DEPARTURE_DATE_KEY = "departure_date_key"
+        const val RETURN_DATE_KEY = "return_date_key"
     }
 
     override fun render(viewState: BuyViewState) {
@@ -58,9 +58,15 @@ class BuyActivity : MviActivity<BuyView, BuyPresenter>(), BuyView {
 
         baby_text_counter.text = viewState.babyCounter.toString()
         remove_baby_btn.isEnabled = viewState.babyCounter != 0
+        baby_text_counter.isEnabled = viewState.babyCounter != 0
+        baby_text.isEnabled = viewState.babyCounter != 0
+        baby_image.isEnabled = viewState.babyCounter != 0
 
         kid_text_counter.text = viewState.kidCounter.toString()
         remove_kid_btn.isEnabled = viewState.kidCounter != 0
+        kid_text_counter.isEnabled = viewState.kidCounter != 0
+        kid_text.isEnabled = viewState.kidCounter != 0
+        kid_image.isEnabled = viewState.kidCounter != 0
 
         if (viewState.departureCity != null){
             city_from_text.text = viewState.departureCity!!.city

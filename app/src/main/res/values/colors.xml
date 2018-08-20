@@ -6,4 +6,5 @@
     <color name="text_description_color">#80a4b7</color>
     <color name="divider_color">#e1e1e1</color>
     <color name="light_check_data_color">#dceaf1</color>
+    <color name="colorPrimaryDisabled">#7f2d42b6</color>
 </resources>

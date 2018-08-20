@@ -2,19 +2,22 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="15dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
+        android:id="@+id/city_info"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/ripple_effect"
+        android:padding="15dp">
         <TextView
             android:id="@+id/geo_name_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textSize="16sp"
             android:clickable="true"
+            android:paddingStart="30dp"
             android:layout_weight="1"
             android:focusable="true"
             android:textColor="@android:color/black"/>
@@ -23,6 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:paddingStart="30dp"
             android:textSize="13sp"
             android:textColor="@color/text_description_color"/>
     </LinearLayout>
@@ -33,10 +37,10 @@
         android:layout_height="wrap_content"
         android:clickable="true"
         android:focusable="true"
-        android:padding="15dp"
+        android:padding="5dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@id/city_info"
+        app:layout_constraintBottom_toBottomOf="@id/city_info"
         android:src="@drawable/ic_near_me_black_24dp"
         android:background="@drawable/ripple_effect"
         />
