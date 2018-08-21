@@ -6,7 +6,7 @@ import android.support.v7.app.ActionBar
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.ImageButton
 import android.widget.TextView
-import com.example.kortikov.kodetest.Buy.BuyActivity
+import com.example.kortikov.kodetest.Booking.BuyActivity
 import com.example.kortikov.kodetest.City
 import com.example.kortikov.kodetest.R
 import com.hannesdorfmann.mosby3.mvi.MviActivity

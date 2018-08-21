@@ -1,7 +1,7 @@
 package com.example.kortikov.kodetest.Weather
 
 import com.example.kortikov.kodetest.ApiService.WeatherApi
-import com.example.kortikov.kodetest.Buy.BuyActivity
+import com.example.kortikov.kodetest.Booking.BuyActivity
 import com.example.kortikov.kodetest.City
 import com.example.kortikov.kodetest.WeatherList
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory

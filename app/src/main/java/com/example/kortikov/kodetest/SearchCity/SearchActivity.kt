@@ -17,7 +17,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.*
-import com.example.kortikov.kodetest.Buy.BuyActivity
+import com.example.kortikov.kodetest.Booking.BuyActivity
 import com.example.kortikov.kodetest.City
 import com.example.kortikov.kodetest.Epoxy.CityController
 import com.example.kortikov.kodetest.R

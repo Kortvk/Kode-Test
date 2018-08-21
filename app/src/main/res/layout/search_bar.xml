@@ -36,6 +36,5 @@
         android:padding="10dp"
         android:textColor="@color/text_description_color"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/back_arrow"
-        />
+        app:layout_constraintStart_toEndOf="@id/back_arrow"/>
 </android.support.constraint.ConstraintLayout>
