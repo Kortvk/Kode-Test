@@ -6,7 +6,7 @@ import android.support.v7.app.ActionBar
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.ImageButton
 import android.widget.TextView
-import com.example.kortikov.kodetest.Booking.BuyActivity
+import com.example.kortikov.kodetest.Booking.BookingActivity
 import com.example.kortikov.kodetest.City
 import com.example.kortikov.kodetest.R
 import com.hannesdorfmann.mosby3.mvi.MviActivity
@@ -55,10 +55,10 @@ class WeatherActivity : MviActivity<WeatherView, WeatherPresenter>(), WeatherVie
             finish()
         }
 
-        val departureCity = intent.getParcelableExtra<City>(BuyActivity.DEPARTURE_CITY_KEY)
-        val arriveCity = intent.getParcelableExtra<City>(BuyActivity.ARRIVE_CITY_KEY)
-        val departureDate = intent.getParcelableExtra<City>(BuyActivity.DEPARTURE_DATE_KEY)
-        val returnDate = intent.getParcelableExtra<City>(BuyActivity.RETURN_DATE_KEY)
+        val departureCity = intent.getParcelableExtra<City>(BookingActivity.DEPARTURE_CITY_KEY)
+        val arriveCity = intent.getParcelableExtra<City>(BookingActivity.ARRIVE_CITY_KEY)
+        val departureDate = intent.getParcelableExtra<City>(BookingActivity.DEPARTURE_DATE_KEY)
+        val returnDate = intent.getParcelableExtra<City>(BookingActivity.RETURN_DATE_KEY)
 
         departureCityText.text = departureCity.city
         arriveCityText.text = arriveCity.city

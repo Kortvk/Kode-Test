@@ -32,20 +32,19 @@ class SearchInteractor {
                 .build()
         val service = retrofit.create(CityApi::class.java)
         return service.getCities("ru").map { list: CityList -> listCity = list.getResults()
-            SearchViewState(result = list.getResults())
-        }
-                .startWith(SearchViewState(loading = true))
-                .onErrorReturn { t: Throwable -> SearchViewState(error = t.message) }
+            SearchViewState.LoadResult(list.getResults()) as SearchViewState}
+                .startWith(SearchViewState.Loading())
+                .onErrorReturn { t: Throwable -> SearchViewState.Error(t) }
                 .subscribeOn(Schedulers.io())
     }
 
     fun search(searchText : String) : Observable<SearchViewState>{
         if (searchText.isEmpty())
-            return Observable.just(SearchViewState(result = listCity))
+            return Observable.just(SearchViewState.SearchResult(listCity))
 
-        return Observable.just(SearchViewState(searchText = searchText, result = searchItem(searchText, listCity!!)))
+        return Observable.just(SearchViewState.SearchResult(searchItem(searchText, listCity!!)) as SearchViewState)
                 .onErrorReturn {
-                    SearchViewState(error = it.message, searchText = searchText)
+                    SearchViewState.Error(it)
                 }
     }
 
@@ -53,16 +52,16 @@ class SearchInteractor {
     fun location(locationManager: LocationManager?): Observable<SearchViewState>{
         if (locationManager != null){
             var location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-            if (location != null) return Observable.just(SearchViewState(currentLocation = location))
+            if (location != null) return Observable.just(SearchViewState.Location(location))
             else{
                 location = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
-                if (location != null) return Observable.just(SearchViewState(currentLocation = location))
+                if (location != null) return Observable.just(SearchViewState.Location(location))
                 else{
                     location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-                    if (location != null) return Observable.just(SearchViewState(currentLocation = location))
+                    if (location != null) return Observable.just(SearchViewState.Location(location))
                 }
             }
         }
-        return Observable.just(SearchViewState())
+        return Observable.just(SearchViewState.Location() as SearchViewState)
     }
 }

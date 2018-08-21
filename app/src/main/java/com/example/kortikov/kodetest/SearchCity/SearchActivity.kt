@@ -17,7 +17,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.*
-import com.example.kortikov.kodetest.Booking.BuyActivity
+import com.example.kortikov.kodetest.Booking.BookingActivity
 import com.example.kortikov.kodetest.City
 import com.example.kortikov.kodetest.Epoxy.CityController
 import com.example.kortikov.kodetest.R
@@ -72,7 +72,7 @@ class SearchActivity : MviActivity<SearchView, SearchPresenter>(), SearchView, C
 
     override fun render(viewState: SearchViewState) {
         var controller = CityController(this)
-        if (viewState.result != null){
+        if (viewState is SearchViewState.LoadResult ){
 
             progress.visibility = View.GONE
             error_layout.visibility = View.GONE
@@ -86,18 +86,31 @@ class SearchActivity : MviActivity<SearchView, SearchPresenter>(), SearchView, C
             if (currentLocation != null) controller.setData(listCity, searchCity(currentLocation!!), geo)
             else controller.setData(listCity, null, geo)
         }
-        if(viewState.error != null){
+        if (viewState is SearchViewState.SearchResult){
+            progress.visibility = View.GONE
+            error_layout.visibility = View.GONE
+            epoxy_recycler.visibility = View.VISIBLE
+
+            listCity = viewState.result!!
+
+            epoxy_recycler.layoutManager = LinearLayoutManager(applicationContext)
+            epoxy_recycler.adapter = controller.adapter
+
+            if (currentLocation != null) controller.setData(listCity, searchCity(currentLocation!!), geo)
+            else controller.setData(listCity, null, geo)
+        }
+        if(viewState is SearchViewState.Error){
             progress.visibility = View.GONE
             epoxy_recycler.visibility = View.GONE
             error_layout.visibility = View.VISIBLE
         }
-        if(viewState.loading){
+        if(viewState is SearchViewState.Loading){
             progress.visibility = View.VISIBLE
             epoxy_recycler.visibility = View.GONE
             error_layout.visibility = View.GONE
         }
-        if (viewState.currentLocation != null){
-            currentLocation = viewState.currentLocation!!
+        if (viewState is SearchViewState.Location && viewState.location != null){
+            currentLocation = viewState.location!!
             if (listCity != null) {
                 controller.setData(listCity, searchCity(currentLocation!!), geo)
             }
@@ -157,9 +170,9 @@ class SearchActivity : MviActivity<SearchView, SearchPresenter>(), SearchView, C
 
         requestCode = intent.getIntExtra("request_code", 0)
 
-        if (requestCode == BuyActivity.FLY_FROM_KEY)
+        if (requestCode == BookingActivity.FLY_FROM_KEY)
             setDepartureView()
-        else if (requestCode == BuyActivity.FLY_TO_KEY)
+        else if (requestCode == BookingActivity.FLY_TO_KEY)
             setReturnView()
 
         backBtn.setOnClickListener {
