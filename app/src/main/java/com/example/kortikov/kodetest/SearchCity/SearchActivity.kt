@@ -19,8 +19,8 @@ import android.view.View
 import android.widget.*
 import com.example.kortikov.kodetest.Booking.BookingActivity
 import com.example.kortikov.kodetest.City
-import com.example.kortikov.kodetest.Epoxy.CityController
 import com.example.kortikov.kodetest.R
+import com.example.kortikov.kodetest.SearchCity.List.CityController
 import com.hannesdorfmann.mosby3.mvi.MviActivity
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers

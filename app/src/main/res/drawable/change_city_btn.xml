@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rotate
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:fromDegrees="50"
-    android:toDegrees="5" >
-    <shape
-        android:shape="rectangle">
-        <solid
-            android:color="@color/colorPrimary"/>
+
+<rotate xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fromDegrees="45"
+    android:toDegrees="45">
+    <shape android:shape="rectangle">
+        <solid android:color="@color/colorPrimary" />
         <size
             android:width="5dp"
-            android:height="5dp"/>
+            android:height="5dp" />
     </shape>
 </rotate>

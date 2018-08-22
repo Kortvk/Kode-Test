@@ -61,7 +61,7 @@
                 android:layout_width="33dp"
                 android:layout_height="30dp"
                 android:adjustViewBounds="true"
-                android:background="@drawable/change_city_btn"
+                android:background="@drawable/color_primary_ripple_effect"
                 android:clickable="true"
                 android:focusable="true"
                 android:padding="5dp"
@@ -97,7 +97,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom ="15dp"
-                    android:text="Все аэропорты"
                     android:textColor="@color/text_description_color"
                     android:textSize="13sp" />
             </LinearLayout>

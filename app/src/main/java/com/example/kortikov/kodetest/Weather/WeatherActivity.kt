@@ -10,6 +10,7 @@ import android.widget.Toast
 import com.example.kortikov.kodetest.Booking.BookingActivity
 import com.example.kortikov.kodetest.City
 import com.example.kortikov.kodetest.R
+import com.example.kortikov.kodetest.Weather.List.WeatherController
 import com.hannesdorfmann.mosby3.mvi.MviActivity
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_weather.*
@@ -19,17 +20,17 @@ class WeatherActivity : MviActivity<WeatherView, WeatherPresenter>(), WeatherVie
     override lateinit var weatherToIntent: Observable<City>
 
     override fun render(viewState: WeatherViewState) {
-        if (viewState is WeatherViewState.WeatherFrom) {
+        if (viewState is WeatherViewState.WeatherFrom && viewState.result != null) {
             recycler2.layoutManager = LinearLayoutManager(applicationContext)
-            var adapter = WeatherAdapter()
-            adapter.data = viewState.result!!
-            recycler2.adapter = adapter
+            val controller = WeatherController()
+            recycler2.adapter = controller.adapter
+            controller.setData(viewState.result)
         }
-        if (viewState is WeatherViewState.WeatherTo) {
+        if (viewState is WeatherViewState.WeatherTo && viewState.result != null) {
             recycler1.layoutManager = LinearLayoutManager(applicationContext)
-            var adapter = WeatherAdapter()
-            adapter.data = viewState.result!!
-            recycler1.adapter = adapter
+            val controller = WeatherController()
+            recycler1.adapter = controller.adapter
+            controller.setData(viewState.result)
         }
         if(viewState is WeatherViewState.Error)
             Toast.makeText(applicationContext, viewState.error.toString(), Toast.LENGTH_LONG).show()

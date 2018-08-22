@@ -1,9 +1,5 @@
-package com.example.kortikov.kodetest.Epoxy
+package com.example.kortikov.kodetest.SearchCity.List
 
-import android.view.View
-import android.widget.Toast
-import com.airbnb.epoxy.AutoModel
-import com.airbnb.epoxy.Typed2EpoxyController
 import com.airbnb.epoxy.Typed3EpoxyController
 import com.example.kortikov.kodetest.City
 

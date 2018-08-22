@@ -1,8 +1,7 @@
-package com.example.kortikov.kodetest.Epoxy
+package com.example.kortikov.kodetest.SearchCity.List
 
 import android.support.annotation.StringRes
 import android.view.View
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import com.airbnb.epoxy.EpoxyAttribute

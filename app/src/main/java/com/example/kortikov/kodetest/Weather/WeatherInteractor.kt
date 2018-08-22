@@ -10,7 +10,7 @@ import io.reactivex.schedulers.Schedulers
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class WeatherIntersector {
+class WeatherInteractor {
 
     fun weatherFrom(city: City?): Observable<WeatherViewState>{
         val retrofit = Retrofit.Builder()

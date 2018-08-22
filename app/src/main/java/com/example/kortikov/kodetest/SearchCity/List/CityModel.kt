@@ -1,4 +1,4 @@
-package com.example.kortikov.kodetest.Epoxy
+package com.example.kortikov.kodetest.SearchCity.List
 
 import android.support.annotation.StringRes
 import android.view.View
