@@ -10,6 +10,7 @@
     <ImageView
         android:layout_width="20dp"
         android:layout_height="20dp"
+        android:rotation="180"
         android:src="@drawable/tab_header_drawable_selector" />
     <TextView
         android:layout_width="wrap_content"

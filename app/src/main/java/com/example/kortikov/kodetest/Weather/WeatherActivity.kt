@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBar
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import com.example.kortikov.kodetest.Booking.BookingActivity
 import com.example.kortikov.kodetest.City
 import com.example.kortikov.kodetest.R
@@ -18,18 +19,20 @@ class WeatherActivity : MviActivity<WeatherView, WeatherPresenter>(), WeatherVie
     override lateinit var weatherToIntent: Observable<City>
 
     override fun render(viewState: WeatherViewState) {
-        if (viewState.weatherFrom != null) {
+        if (viewState is WeatherViewState.WeatherFrom) {
             recycler2.layoutManager = LinearLayoutManager(applicationContext)
             var adapter = WeatherAdapter()
-            adapter.data = viewState.weatherFrom!!
+            adapter.data = viewState.result!!
             recycler2.adapter = adapter
         }
-        if (viewState.weatherTo != null) {
+        if (viewState is WeatherViewState.WeatherTo) {
             recycler1.layoutManager = LinearLayoutManager(applicationContext)
             var adapter = WeatherAdapter()
-            adapter.data = viewState.weatherTo!!
+            adapter.data = viewState.result!!
             recycler1.adapter = adapter
         }
+        if(viewState is WeatherViewState.Error)
+            Toast.makeText(applicationContext, viewState.error.toString(), Toast.LENGTH_LONG).show()
     }
 
     override fun createPresenter(): WeatherPresenter {

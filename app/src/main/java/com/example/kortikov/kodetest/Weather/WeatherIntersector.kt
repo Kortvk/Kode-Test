@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class WeatherIntersector {
 
-    fun weatherFrom(city: City?): Observable<WeatherPartialState>{
+    fun weatherFrom(city: City?): Observable<WeatherViewState>{
         val retrofit = Retrofit.Builder()
                 .baseUrl("http://api.openweathermap.org/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -20,12 +20,12 @@ class WeatherIntersector {
                 .build()
         val service = retrofit.create(WeatherApi::class.java)
         return service.getWeatherByCoordinate(BookingActivity.APP_ID, city!!.lon!!, city.lat!!)
-                .map { t: WeatherList -> WeatherPartialState(weatherFrom = t) }
-                .onErrorReturn { t: Throwable -> WeatherPartialState(errorMessage = t.message) }
+                .map { t: WeatherList -> WeatherViewState.WeatherFrom(t) as WeatherViewState }
+                .onErrorReturn { t: Throwable -> WeatherViewState.Error(t) }
                 .subscribeOn(Schedulers.io())
     }
 
-    fun weatherTo(city: City?): Observable<WeatherPartialState>{
+    fun weatherTo(city: City?): Observable<WeatherViewState>{
         val retrofit = Retrofit.Builder()
                 .baseUrl("http://api.openweathermap.org/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -33,8 +33,8 @@ class WeatherIntersector {
                 .build()
         val service = retrofit.create(WeatherApi::class.java)
         return service.getWeatherByCoordinate(BookingActivity.APP_ID, city!!.lon!!, city.lat!!)
-                .map { t: WeatherList -> WeatherPartialState(weatherTo = t) }
-                .onErrorReturn { t: Throwable -> WeatherPartialState(errorMessage = t.message) }
+                .map { t: WeatherList -> WeatherViewState.WeatherTo(t) as WeatherViewState }
+                .onErrorReturn { t: Throwable -> WeatherViewState.Error(t) }
                 .subscribeOn(Schedulers.io())
     }
 }

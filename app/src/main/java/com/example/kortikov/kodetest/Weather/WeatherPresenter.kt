@@ -17,20 +17,20 @@ class WeatherPresenter : MviBasePresenter<WeatherView, WeatherViewState>() {
 
         val allIntents = Observable.merge(weatherFrom, weatherTo)
 
-        var initialState = WeatherViewState()
-        var stateObservable = allIntents.scan(initialState, this::viewStateReducer)
-        subscribeViewState(stateObservable, WeatherView::render)
+       // var initialState = WeatherViewState()
+       // var stateObservable = allIntents.scan(initialState, this::viewStateReducer)
+        subscribeViewState(allIntents, WeatherView::render)
     }
 
-    private fun viewStateReducer(previousState: WeatherViewState, changes: WeatherPartialState): WeatherViewState {
-        if (changes.weatherFrom != null && previousState.weatherFrom == null){
-            previousState.weatherFrom = changes.weatherFrom
-            return previousState
-        }
-        if (changes.weatherTo != null && previousState.weatherTo == null){
-            previousState.weatherTo = changes.weatherTo
-            return previousState
-        }
-        return previousState
-    }
+//    private fun viewStateReducer(previousState: WeatherViewState, changes: WeatherPartialState): WeatherViewState {
+//        if (changes.weatherFrom != null && previousState.weatherFrom == null){
+//            previousState.weatherFrom = changes.weatherFrom
+//            return previousState
+//        }
+//        if (changes.weatherTo != null && previousState.weatherTo == null){
+//            previousState.weatherTo = changes.weatherTo
+//            return previousState
+//        }
+//        return previousState
+//    }
 }
