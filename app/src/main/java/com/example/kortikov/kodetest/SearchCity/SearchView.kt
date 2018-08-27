@@ -7,6 +7,6 @@ import io.reactivex.Observable
 interface SearchView : MvpView{
     var searchIntent : Observable<String>
     var loadIntent : Observable<Boolean>
-    var locationIntent: Observable<LocationManager>
+    var locationIntent: Observable<Boolean>
     fun render(viewState: SearchViewState)
 }

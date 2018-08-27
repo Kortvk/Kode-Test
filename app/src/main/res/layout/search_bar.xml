@@ -19,10 +19,11 @@
         android:id="@+id/search_edit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:padding="15dp"
+        android:padding="10dp"
         android:layout_margin="5dp"
         android:textColor="@android:color/black"
         android:background="@android:color/white"
+        android:textColorHint="@color/colorBlackDisabled"
         android:textSize="16sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@id/back_arrow"
@@ -34,7 +35,8 @@
         android:layout_height="wrap_content"
         android:textSize="13sp"
         android:padding="10dp"
-        android:textColor="@color/text_description_color"
+        android:layout_marginStart="5dp"
+        android:textColor="@color/text_secondary_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/back_arrow"/>
 </android.support.constraint.ConstraintLayout>

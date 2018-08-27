@@ -1,12 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<rotate xmlns:android="http://schemas.android.com/apk/res/android"
-    android:fromDegrees="45"
-    android:toDegrees="45">
-    <shape android:shape="rectangle">
-        <solid android:color="@color/colorPrimary" />
-        <size
-            android:width="5dp"
-            android:height="5dp" />
-    </shape>
-</rotate>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:height="36dp" android:width="36dp" android:viewportWidth="36.29155" android:viewportHeight="36.29155">
+    <path android:fillColor="@color/btn_change_color_selector" android:pathData="M1.17522,15.3174 L15.3174,1.17522 Q18.1458,-1.6532,20.9742,1.17522 L35.1163,15.3174 Q37.9448,18.1458,35.1163,20.9742 L20.9742,35.1164 Q18.1458,37.9448,15.3174,35.1164 L1.17522,20.9742 Q-1.65321,18.1458,1.17522,15.3174 Z" android:strokeWidth="0.8958824" />
+</vector>

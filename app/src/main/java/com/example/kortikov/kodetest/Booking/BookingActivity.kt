@@ -19,8 +19,10 @@ import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
+/**
+ *
+ */
 class BookingActivity : MviActivity<BookingView, BookingPresenter>(), BookingView {
-    override lateinit var removeReturnDateIntent: Observable<Boolean>
     override lateinit var setDepartureCityIntent: Observable<City>
     override lateinit var setArriveCityIntent: Observable<City>
     override lateinit var setDepartureDateIntent: Observable<Calendar>
@@ -29,7 +31,56 @@ class BookingActivity : MviActivity<BookingView, BookingPresenter>(), BookingVie
     override lateinit var changeKidIntent: Observable<Int>
     override lateinit var changeBabyIntent: Observable<Int>
     override lateinit var reverseCitiesIntent: Observable<Boolean>
+    override lateinit var removeReturnDateIntent: Observable<Boolean>
 
+
+    private var departureCityPublishSubject: PublishSubject<City> = PublishSubject.create<City>()
+    private var arriveCityPublishSubject: PublishSubject<City> = PublishSubject.create<City>()
+    private var departureDatePublishSubject: PublishSubject<Calendar> = PublishSubject.create<Calendar>()
+    private var returnDatePublishSubject: PublishSubject<Calendar> = PublishSubject.create<Calendar>()
+    private var changeAdultPublishSubject: PublishSubject<Int> = PublishSubject.create<Int>()
+    private var changeKidPublishSubject:  PublishSubject<Int> = PublishSubject.create<Int>()
+    private var changeBabyPublishSubject:  PublishSubject<Int> = PublishSubject.create<Int>()
+    private var reverseCitiesPublishSubject: PublishSubject<Boolean> = PublishSubject.create<Boolean>()
+    private var removeReturnDatePublishSubject: PublishSubject<Boolean> = PublishSubject.create<Boolean>()
+
+    init {
+        setDepartureCityIntent = departureCityPublishSubject
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+
+        setArriveCityIntent = arriveCityPublishSubject
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+
+        setDepartureDateIntent = departureDatePublishSubject
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+
+        setReturnDateIntent = returnDatePublishSubject
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+
+        changeAdultIntent = changeAdultPublishSubject
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+
+        changeKidIntent = changeKidPublishSubject
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+
+        changeBabyIntent = changeBabyPublishSubject
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+
+        reverseCitiesIntent = reverseCitiesPublishSubject
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+
+        removeReturnDateIntent = removeReturnDatePublishSubject
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+    }
 
     override fun createPresenter(): BookingPresenter {
         return BookingPresenter()
@@ -48,8 +99,13 @@ class BookingActivity : MviActivity<BookingView, BookingPresenter>(), BookingVie
         const val RETURN_DATE_KEY = "return_date_key"
     }
 
+
+
     override fun render(viewState: BookingViewState) {
         this.viewState = viewState
+
+        reverse_btn.isEnabled = !(viewState.arriveCity == null && viewState.departureCity == null)
+
         adult_text_counter.text = viewState.adultCounter.toString()
         remove_adult_btn.isEnabled = viewState.adultCounter != 1
 
@@ -106,59 +162,11 @@ class BookingActivity : MviActivity<BookingView, BookingPresenter>(), BookingVie
 
     }
 
-    private lateinit var departureCityPublishSubject: PublishSubject<City>
-    private lateinit var arriveCityPublishSubject: PublishSubject<City>
 
     @SuppressLint("SimpleDateFormat")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        departureCityPublishSubject = PublishSubject.create<City>()
-        setDepartureCityIntent = departureCityPublishSubject
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-
-
-        arriveCityPublishSubject = PublishSubject.create<City>()
-        setArriveCityIntent = arriveCityPublishSubject
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-
-        var departureDatePublishSubject = PublishSubject.create<Calendar>()
-        setDepartureDateIntent = departureDatePublishSubject
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-
-        var returnDatePublishSubject = PublishSubject.create<Calendar>()
-        setReturnDateIntent = returnDatePublishSubject
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-
-        var changeAdultPublishSubject = PublishSubject.create<Int>()
-        changeAdultIntent = changeAdultPublishSubject
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-
-        var changeKidPublishSubject = PublishSubject.create<Int>()
-        changeKidIntent = changeKidPublishSubject
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-
-        var changeBabyPublishSubject = PublishSubject.create<Int>()
-        changeBabyIntent = changeBabyPublishSubject
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-
-        var reverseCitiesPublishSubject = PublishSubject.create<Boolean>()
-        reverseCitiesIntent = reverseCitiesPublishSubject
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-
-        var removeReturnDatePublishSubject = PublishSubject.create<Boolean>()
-        removeReturnDateIntent = removeReturnDatePublishSubject
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
 
         layout_from.setOnClickListener {
             val intent = Intent(applicationContext , SearchActivity::class.java)
@@ -179,10 +187,10 @@ class BookingActivity : MviActivity<BookingView, BookingPresenter>(), BookingVie
             date.set(Calendar.MONTH, monthOfYear)
             date.set(Calendar.DAY_OF_MONTH, dayOfMonth)
             if (currentDate == FLY_FROM_KEY) {
-                departureDatePublishSubject.onNext(date.clone() as Calendar)
+                departureDatePublishSubject!!.onNext(date.clone() as Calendar)
             }
             else{
-                returnDatePublishSubject.onNext(date.clone() as Calendar)
+                returnDatePublishSubject!!.onNext(date.clone() as Calendar)
             }
         }
 
@@ -216,27 +224,27 @@ class BookingActivity : MviActivity<BookingView, BookingPresenter>(), BookingVie
         }
 
         add_adult_btn.setOnClickListener {
-            changeAdultPublishSubject.onNext(1)
+            changeAdultPublishSubject!!.onNext(1)
         }
 
         remove_adult_btn.setOnClickListener{
-            changeAdultPublishSubject.onNext(-1)
+            changeAdultPublishSubject!!.onNext(-1)
         }
 
         add_baby_btn.setOnClickListener {
-            changeBabyPublishSubject.onNext(1)
+            changeBabyPublishSubject!!.onNext(1)
         }
 
         remove_baby_btn.setOnClickListener{
-            changeBabyPublishSubject.onNext(-1)
+            changeBabyPublishSubject!!.onNext(-1)
         }
 
         add_kid_btn.setOnClickListener {
-            changeKidPublishSubject.onNext(1)
+            changeKidPublishSubject!!.onNext(1)
         }
 
         remove_kid_btn.setOnClickListener{
-            changeKidPublishSubject.onNext(-1)
+            changeKidPublishSubject!!.onNext(-1)
         }
 
         btn_next.setOnClickListener {
@@ -253,11 +261,11 @@ class BookingActivity : MviActivity<BookingView, BookingPresenter>(), BookingVie
             }
         }
         reverse_btn.setOnClickListener {
-            reverseCitiesPublishSubject.onNext(true)
+            reverseCitiesPublishSubject!!.onNext(true)
         }
 
         remove_date_from.setOnClickListener {
-            removeReturnDatePublishSubject.onNext(true)
+            removeReturnDatePublishSubject!!.onNext(true)
         }
     }
 
@@ -266,11 +274,11 @@ class BookingActivity : MviActivity<BookingView, BookingPresenter>(), BookingVie
         if (resultCode == Activity.RESULT_OK){
             val city = data!!.getParcelableExtra<City>("city")
             if (requestCode == FLY_FROM_KEY){
-                layout_from.post { departureCityPublishSubject.onNext(city) }
+                layout_from.post { departureCityPublishSubject!!.onNext(city) }
 
             }
             else if (requestCode == FLY_TO_KEY){
-                layout_to.post { arriveCityPublishSubject.onNext(city)}
+                layout_to.post { arriveCityPublishSubject!!.onNext(city)}
             }
         }
     }

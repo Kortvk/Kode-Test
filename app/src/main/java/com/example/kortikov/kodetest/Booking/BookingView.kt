@@ -16,9 +16,5 @@ interface BookingView : MvpView {
     var reverseCitiesIntent: Observable<Boolean>
     var removeReturnDateIntent: Observable<Boolean>
 
-    /**
-     *Отрисовка View
-     * @param viewState The current viewState state that should be displayed
-     */
     fun render(viewState: BookingViewState)
 }

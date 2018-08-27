@@ -1,11 +1,12 @@
 package com.example.kortikov.kodetest.SearchCity
 
+import android.content.Context
 import com.hannesdorfmann.mosby3.mvi.MviBasePresenter
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 
-class SearchPresenter : MviBasePresenter<SearchView, SearchViewState>() {
-    private val searchInteractor = SearchInteractor()
+class SearchPresenter(val context: Context) : MviBasePresenter<SearchView, SearchViewState>() {
+    private val searchInteractor = SearchInteractor(context)
 
     override fun bindIntents() {
         var search = intent(SearchView::searchIntent)

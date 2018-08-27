@@ -44,7 +44,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="15dp"
-                    android:textColor="@color/text_description_color"
+                    android:textColor="@color/text_secondary_color"
                     android:textSize="13sp" />
             </LinearLayout>
 
@@ -58,13 +58,13 @@
 
             <ImageView
                 android:id="@+id/reverse_btn"
-                android:layout_width="33dp"
-                android:layout_height="30dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:adjustViewBounds="true"
-                android:background="@drawable/color_primary_ripple_effect"
+                android:background="@drawable/change_city_btn"
                 android:clickable="true"
                 android:focusable="true"
-                android:padding="5dp"
+                android:padding="10dp"
                 android:src="@drawable/ic_icn_global_city_reverse"
                 app:layout_constraintBottom_toBottomOf="@id/layout_to"
                 app:layout_constraintStart_toEndOf="@id/layout_from"
@@ -97,7 +97,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom ="15dp"
-                    android:textColor="@color/text_description_color"
+                    android:textColor="@color/text_secondary_color"
                     android:textSize="13sp" />
             </LinearLayout>
 
@@ -157,7 +157,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="15dp"
                     android:text="@string/date_to"
-                    android:textColor="@color/text_description_color"
+                    android:textColor="@color/text_secondary_color"
                     android:textSize="13sp" />
 
                 <TextView
@@ -209,7 +209,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="15dp"
                     android:text="@string/date_from"
-                    android:textColor="@color/text_description_color"
+                    android:textColor="@color/text_secondary_color"
                     android:textSize="13sp" />
 
                 <TextView

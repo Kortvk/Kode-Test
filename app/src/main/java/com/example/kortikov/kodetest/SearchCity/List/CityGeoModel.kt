@@ -33,11 +33,11 @@ abstract class CityGeoModel: EpoxyModelWithHolder<CityGeoModel.Holder>() {
             holder.airports!!.text = airports
             holder.view!!.isClickable = true
             holder.view!!.isFocusable = true
+            holder.view!!.setOnClickListener(clickListener)
         }
         else
             holder.airports!!.visibility = View.GONE
 
-        holder.text!!.setOnClickListener(clickListener)
         holder.btn!!.setOnClickListener(btnClickListener)
     }
 
