@@ -9,19 +9,19 @@ class SearchPresenter(val context: Context) : MviBasePresenter<SearchView, Searc
     private val searchInteractor = SearchInteractor(context)
 
     override fun bindIntents() {
-        var search = intent(SearchView::searchIntent)
-                .flatMap(searchInteractor::search)
+        val search = intent(SearchView::searchIntent)
+                .switchMap(searchInteractor::search)
                 .observeOn(AndroidSchedulers.mainThread())
 
-        var load = intent(SearchView::loadIntent)
+        val load = intent(SearchView::loadIntent)
                 .flatMap(searchInteractor::load)
                 .observeOn(AndroidSchedulers.mainThread())
 
-        var location = intent(SearchView::locationIntent)
+        val location = intent(SearchView::locationIntent)
                 .flatMap(searchInteractor::location)
                 .observeOn(AndroidSchedulers.mainThread())
 
-        var allIntents = Observable.merge(search, load, location )
+        val allIntents = Observable.merge(search, load, location )
         subscribeViewState(allIntents, SearchView::render)
     }
 

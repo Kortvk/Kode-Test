@@ -32,13 +32,10 @@ class WeatherActivity : MviActivity<WeatherView, WeatherPresenter>(), WeatherVie
             recycler1.adapter = controller.adapter
             controller.setData(viewState.result)
         }
-        if(viewState is WeatherViewState.Error)
-            Toast.makeText(applicationContext, viewState.error.toString(), Toast.LENGTH_LONG).show()
+        if(viewState is WeatherViewState.Error) Toast.makeText(applicationContext, viewState.error.toString(), Toast.LENGTH_LONG).show()
     }
 
-    override fun createPresenter(): WeatherPresenter {
-        return WeatherPresenter()
-    }
+    override fun createPresenter() = WeatherPresenter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,8 +58,6 @@ class WeatherActivity : MviActivity<WeatherView, WeatherPresenter>(), WeatherVie
 
         val departureCity = intent.getParcelableExtra<City>(BookingActivity.DEPARTURE_CITY_KEY)
         val arriveCity = intent.getParcelableExtra<City>(BookingActivity.ARRIVE_CITY_KEY)
-        val departureDate = intent.getParcelableExtra<City>(BookingActivity.DEPARTURE_DATE_KEY)
-        val returnDate = intent.getParcelableExtra<City>(BookingActivity.RETURN_DATE_KEY)
 
         departureCityText.text = departureCity.city
         arriveCityText.text = arriveCity.city

@@ -19,4 +19,7 @@
     <string name="select_city_secondary">Выбрать направление</string>
     <string name="select_destination">Выберите точку назначения</string>
     <string name="select_departure">Выберите точку вылета</string>
+    <string name="max_passengers_warning">Пассажиров должно быть не более 9 человек</string>
+    <string name="max_baby_warning">Младенцев не должно быть больше, чем взрослых</string>
+    <string name="departure_arrive_warning">Пункты вылета и прилета совпадают</string>
 </resources>

@@ -50,6 +50,7 @@ class City() : Parcelable, Comparator<City> {
     @SerializedName("lat")
     @Expose
     var lat: Double? = null
+    
     var airport: String = "Все аэропорты"
 
     constructor(parcel: Parcel) : this() {

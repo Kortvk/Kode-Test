@@ -24,7 +24,7 @@ class SearchInteractor(var context: Context){
     private val rxLocation = RxLocation(context)
 
     private val locationRequest = LocationRequest.create()
-            .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+            .setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
             .setInterval(5000)
             .setNumUpdates(1)
 
@@ -67,12 +67,12 @@ class SearchInteractor(var context: Context){
                 }
     }
 
-    fun searchCity(location: Location?): City? {
+    private fun searchCity(location: Location?): City? {
         if (listCity == null) return null
         var city = City()
         var min = Double.MAX_VALUE
         for(ct in listCity!!){
-            var len = sqrt(Math.pow(location!!.latitude - ct.lat!!, 2.0) + Math.pow(location.longitude - ct.lon!!, 2.0))
+            val len = sqrt(Math.pow(location!!.latitude - ct.lat!!, 2.0) + Math.pow(location.longitude - ct.lon!!, 2.0))
             if (len < min){
                 min = len
                 city = ct

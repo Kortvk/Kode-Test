@@ -19,9 +19,6 @@ import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
-/**
- *
- */
 class BookingActivity : MviActivity<BookingView, BookingPresenter>(), BookingView {
     override lateinit var setDepartureCityIntent: Observable<City>
     override lateinit var setArriveCityIntent: Observable<City>
@@ -82,9 +79,7 @@ class BookingActivity : MviActivity<BookingView, BookingPresenter>(), BookingVie
                 .observeOn(AndroidSchedulers.mainThread())
     }
 
-    override fun createPresenter(): BookingPresenter {
-        return BookingPresenter()
-    }
+    override fun createPresenter() = BookingPresenter(applicationContext)
 
     private var viewState: BookingViewState? = null
 
@@ -186,12 +181,10 @@ class BookingActivity : MviActivity<BookingView, BookingPresenter>(), BookingVie
             date.set(Calendar.YEAR, year)
             date.set(Calendar.MONTH, monthOfYear)
             date.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-            if (currentDate == FLY_FROM_KEY) {
-                departureDatePublishSubject!!.onNext(date.clone() as Calendar)
-            }
-            else{
-                returnDatePublishSubject!!.onNext(date.clone() as Calendar)
-            }
+            if (currentDate == FLY_FROM_KEY)
+                departureDatePublishSubject.onNext(date.clone() as Calendar)
+            else
+                returnDatePublishSubject.onNext(date.clone() as Calendar)
         }
 
         date_to.setOnClickListener {
@@ -200,7 +193,7 @@ class BookingActivity : MviActivity<BookingView, BookingPresenter>(), BookingVie
             val dialog = DatePickerDialog(this, dateSetListener, date.get(Calendar.YEAR),
                     date.get(Calendar.MONTH),
                     date.get(Calendar.DAY_OF_MONTH))
-            dialog.datePicker.minDate = Calendar.getInstance()!!.time.time
+            dialog.datePicker.minDate = Calendar.getInstance().time.time
             dialog.show()
         }
         date_from.setOnClickListener {
@@ -224,48 +217,46 @@ class BookingActivity : MviActivity<BookingView, BookingPresenter>(), BookingVie
         }
 
         add_adult_btn.setOnClickListener {
-            changeAdultPublishSubject!!.onNext(1)
+            changeAdultPublishSubject.onNext(1)
         }
 
         remove_adult_btn.setOnClickListener{
-            changeAdultPublishSubject!!.onNext(-1)
+            changeAdultPublishSubject.onNext(-1)
         }
 
         add_baby_btn.setOnClickListener {
-            changeBabyPublishSubject!!.onNext(1)
+            changeBabyPublishSubject.onNext(1)
         }
 
         remove_baby_btn.setOnClickListener{
-            changeBabyPublishSubject!!.onNext(-1)
+            changeBabyPublishSubject.onNext(-1)
         }
 
         add_kid_btn.setOnClickListener {
-            changeKidPublishSubject!!.onNext(1)
+            changeKidPublishSubject.onNext(1)
         }
 
         remove_kid_btn.setOnClickListener{
-            changeKidPublishSubject!!.onNext(-1)
+            changeKidPublishSubject.onNext(-1)
         }
 
         btn_next.setOnClickListener {
-            if (viewState != null){
-                if (viewState!!.departureCity !=null && viewState!!.arriveCity != null){
-                    val intent = Intent(applicationContext, WeatherActivity::class.java)
-                    intent.putExtra(DEPARTURE_CITY_KEY, viewState!!.departureCity)
-                    intent.putExtra(ARRIVE_CITY_KEY, viewState!!.arriveCity)
-                    intent.putExtra(DEPARTURE_DATE_KEY, viewState!!.dateDeparture)
-                    if(viewState!!.dateReturn != null)
-                        intent.putExtra(RETURN_DATE_KEY, viewState!!.dateReturn)
-                    startActivity(intent)
-                }
+            if (viewState != null && viewState!!.departureCity != null && viewState!!.arriveCity != null) {
+                val intent = Intent(applicationContext, WeatherActivity::class.java)
+                intent.putExtra(DEPARTURE_CITY_KEY, viewState!!.departureCity)
+                intent.putExtra(ARRIVE_CITY_KEY, viewState!!.arriveCity)
+                intent.putExtra(DEPARTURE_DATE_KEY, viewState!!.dateDeparture)
+                if(viewState!!.dateReturn != null)
+                    intent.putExtra(RETURN_DATE_KEY, viewState!!.dateReturn)
+                startActivity(intent)
             }
         }
         reverse_btn.setOnClickListener {
-            reverseCitiesPublishSubject!!.onNext(true)
+            reverseCitiesPublishSubject.onNext(true)
         }
 
         remove_date_from.setOnClickListener {
-            removeReturnDatePublishSubject!!.onNext(true)
+            removeReturnDatePublishSubject.onNext(true)
         }
     }
 
@@ -274,11 +265,11 @@ class BookingActivity : MviActivity<BookingView, BookingPresenter>(), BookingVie
         if (resultCode == Activity.RESULT_OK){
             val city = data!!.getParcelableExtra<City>("city")
             if (requestCode == FLY_FROM_KEY){
-                layout_from.post { departureCityPublishSubject!!.onNext(city) }
+                layout_from.post { departureCityPublishSubject.onNext(city) }
 
             }
             else if (requestCode == FLY_TO_KEY){
-                layout_to.post { arriveCityPublishSubject!!.onNext(city)}
+                layout_to.post { arriveCityPublishSubject.onNext(city)}
             }
         }
     }

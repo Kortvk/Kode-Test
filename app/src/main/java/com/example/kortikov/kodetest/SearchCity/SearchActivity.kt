@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBar
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.*
 import com.example.kortikov.kodetest.Booking.BookingActivity
@@ -33,9 +34,9 @@ class SearchActivity : MviActivity<SearchView, SearchPresenter>(), SearchView, C
     override lateinit var loadIntent: Observable<Boolean>
     override lateinit var locationIntent: Observable<Boolean>
 
-    private lateinit var searchEditText : EditText
-    private lateinit var hintText: TextView
-    private lateinit var backBtn: ImageButton
+    private var searchEditText : EditText? = null
+    private var hintText: TextView? = null
+    private var backBtn: ImageButton? = null
     private var requestCode: Int = -1
     private var geo = CityController.WITHOUT_GEO
 
@@ -60,7 +61,7 @@ class SearchActivity : MviActivity<SearchView, SearchPresenter>(), SearchView, C
 
     override fun onBtnClickListener() {
         if (checkLocationPermission())
-            searchEditText.post { locationPublishSubject.onNext(true) }
+            searchEditText!!.post { locationPublishSubject.onNext(true) }
         else
             getLocationPermission()
     }
@@ -86,9 +87,12 @@ class SearchActivity : MviActivity<SearchView, SearchPresenter>(), SearchView, C
 
             epoxy_recycler.layoutManager = LinearLayoutManager(applicationContext)
             epoxy_recycler.adapter = listController.adapter
+            if (currentLocation == null)
+                Log.d("location", "null | geo = $geo")
+            else
+                Log.d("location", "${currentLocation!!.city} | geo = $geo")
 
-            if (currentLocation != null) listController.setData(listCity, currentLocation!!, geo)
-            else listController.setData(listCity, null, geo)
+            listController.setData(listCity, currentLocation, geo)
         }
         if (viewState is SearchViewState.SearchResult){
             progress.visibility = View.GONE
@@ -100,8 +104,7 @@ class SearchActivity : MviActivity<SearchView, SearchPresenter>(), SearchView, C
             epoxy_recycler.layoutManager = LinearLayoutManager(applicationContext)
             epoxy_recycler.adapter = listController.adapter
 
-            if (currentLocation != null) listController.setData(listCity, currentLocation!!, geo)
-            else listController.setData(listCity, null, geo)
+            listController.setData(listCity, currentLocation, geo)
         }
         if(viewState is SearchViewState.Error){
             progress.visibility = View.GONE
@@ -113,16 +116,20 @@ class SearchActivity : MviActivity<SearchView, SearchPresenter>(), SearchView, C
             epoxy_recycler.visibility = View.GONE
             error_layout.visibility = View.GONE
         }
-        if (viewState is SearchViewState.Location){
-            currentLocation = viewState.location!!
+        if (viewState is SearchViewState.Location && viewState.location != null){
+            currentLocation = viewState.location
+            geo = CityController.CITY_FOUND
             if (listCity != null) {
-                listController.setData(listCity, currentLocation!!, CityController.CITY_FOUND)
+                listController.setData(listCity, currentLocation, geo)
             }
         }
-        if (viewState is SearchViewState.LocationRefresh)
+        if (viewState is SearchViewState.LocationRefresh) {
+            currentLocation = null
+            geo = CityController.SEARCH_CITY
             if (listCity != null) {
-                listController.setData(listCity, null, CityController.SEARCH_CITY)
+                listController.setData(listCity, null, geo)
             }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -152,9 +159,9 @@ class SearchActivity : MviActivity<SearchView, SearchPresenter>(), SearchView, C
         loadIntent = loadPublishSubject.subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
 
-        searchEditText.post { loadPublishSubject.onNext(true) }
+        searchEditText!!.post { loadPublishSubject.onNext(true) }
 
-        searchEditText.addTextChangedListener(object : TextWatcher{
+        searchEditText!!.addTextChangedListener(object : TextWatcher{
             override fun afterTextChanged(p0: Editable?) {
             }
 
@@ -175,7 +182,7 @@ class SearchActivity : MviActivity<SearchView, SearchPresenter>(), SearchView, C
         else if (requestCode == BookingActivity.FLY_TO_KEY)
             setReturnView()
 
-        backBtn.setOnClickListener {
+        backBtn!!.setOnClickListener {
             setResult(Activity.RESULT_CANCELED)
             finish()
         }
@@ -186,22 +193,22 @@ class SearchActivity : MviActivity<SearchView, SearchPresenter>(), SearchView, C
     }
 
     private fun setReturnView() {
-        searchEditText.hint = resources.getString(R.string.to_city_string)
-        hintText.text = resources.getString(R.string.select_destination)
+        searchEditText!!.hint = resources.getString(R.string.to_city_string)
+        hintText!!.text = resources.getString(R.string.select_destination)
 
         geo = CityController.WITHOUT_GEO
     }
 
     private fun setDepartureView() {
-        searchEditText.hint = resources.getString(R.string.from_city_string)
-        hintText.text = resources.getString(R.string.select_departure)
+        searchEditText!!.hint = resources.getString(R.string.from_city_string)
+        hintText!!.text = resources.getString(R.string.select_departure)
 
         geo = CityController.NO_CITY
 
         if (!checkLocationPermission()) {
             getLocationPermission()
         } else {
-            searchEditText.post { locationPublishSubject.onNext(true) }
+            searchEditText!!.post { locationPublishSubject.onNext(true) }
         }
     }
 
@@ -211,7 +218,7 @@ class SearchActivity : MviActivity<SearchView, SearchPresenter>(), SearchView, C
             for (i in 0 until permissions.size)
                 if (permissions[i] == Manifest.permission.ACCESS_FINE_LOCATION){
                     if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
-                        searchEditText.post { locationPublishSubject.onNext(true) }
+                        searchEditText!!.post { locationPublishSubject.onNext(true) }
                     }
                 }
         }

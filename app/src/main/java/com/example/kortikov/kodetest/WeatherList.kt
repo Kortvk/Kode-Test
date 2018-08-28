@@ -28,10 +28,6 @@ class WeatherList {
         @Expose
         var weather : kotlin.collections.List<Weather>? = null
 
-        override fun toString(): String {
-            return weather!![0].description!!
-        }
-
         inner class Weather {
             @SerializedName("main")
             @Expose

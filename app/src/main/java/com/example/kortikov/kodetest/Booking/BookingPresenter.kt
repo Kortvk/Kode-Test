@@ -1,50 +1,72 @@
 package com.example.kortikov.kodetest.Booking
 
+import android.content.Context
+import com.example.kortikov.kodetest.R
 import com.hannesdorfmann.mosby3.mvi.MviBasePresenter
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import java.util.*
 
-
-class BookingPresenter : MviBasePresenter<BookingView, BookingViewState>() {
-    private val buyInteractor = BookingInteractor()
+class BookingPresenter(val context: Context) : MviBasePresenter<BookingView, BookingViewState>() {
 
     override fun bindIntents() {
         val setDepartureCity = intent(BookingView::setDepartureCityIntent)
-                .flatMap(buyInteractor::setDepartureCity)
+                .flatMap{
+                        Observable.just(BookingPartialState.SetDepartureCity(it) as BookingPartialState)
+                                .onErrorReturn { error: Throwable -> BookingPartialState.Error(error) }
+                }
                 .observeOn(AndroidSchedulers.mainThread())
 
         val setArriveCity = intent(BookingView::setArriveCityIntent)
-                .flatMap(buyInteractor::setArriveCity)
+                .flatMap{
+                    Observable.just(BookingPartialState.SetArriveCity(it) as BookingPartialState)
+                            .onErrorReturn { error: Throwable -> BookingPartialState.Error(error) }
+                }
                 .observeOn(AndroidSchedulers.mainThread())
 
         val setDepartureDate = intent(BookingView::setDepartureDateIntent)
-                .flatMap(buyInteractor::setDepartureDate)
+                .flatMap{
+                    Observable.just(BookingPartialState.SetDepartureDate(it) as BookingPartialState)
+                            .onErrorReturn { error: Throwable -> BookingPartialState.Error(error) }
+                }
                 .observeOn(AndroidSchedulers.mainThread())
 
         val setReturnDate = intent(BookingView::setReturnDateIntent)
-                .flatMap(buyInteractor::setReturnDate)
+                .flatMap{
+                    Observable.just(BookingPartialState.SetReturnDate(it) as BookingPartialState)
+                            .onErrorReturn { error: Throwable -> BookingPartialState.Error(error) }
+                }
                 .observeOn(AndroidSchedulers.mainThread())
 
         val changeAdult = intent(BookingView::changeAdultIntent)
-                .flatMap(buyInteractor::changeAdult)
+                .flatMap{
+                    Observable.just(BookingPartialState.ChangeAdultCounter(it))
+                }
                 .observeOn(AndroidSchedulers.mainThread())
 
 
         val changeKid= intent(BookingView::changeKidIntent)
-                .flatMap(buyInteractor::changeKid)
+                .flatMap{
+                    Observable.just(BookingPartialState.ChangeKidCounter(it))
+                }
                 .observeOn(AndroidSchedulers.mainThread())
 
         val changeBaby = intent(BookingView::changeBabyIntent)
-                .flatMap(buyInteractor::changeBaby)
+                .flatMap{
+                    Observable.just(BookingPartialState.ChangeBabyCounter(it))
+                }
                 .observeOn(AndroidSchedulers.mainThread())
 
         val reverseCities = intent(BookingView::reverseCitiesIntent)
-                .flatMap(buyInteractor::reverseCities)
+                .flatMap{
+                    Observable.just(BookingPartialState.ReverseCities())
+                }
                 .observeOn(AndroidSchedulers.mainThread())
 
         val removeReturnDate = intent(BookingView::removeReturnDateIntent)
-                .flatMap(buyInteractor::removeReturnDate)
+                .flatMap{
+                    Observable.just(BookingPartialState.SetReturnDate(null))
+                }
                 .observeOn(AndroidSchedulers.mainThread())
 
         val allIntents = Observable.merge(listOf(setDepartureCity,
@@ -59,20 +81,19 @@ class BookingPresenter : MviBasePresenter<BookingView, BookingViewState>() {
 
         val date = Calendar.getInstance()
         date.add(Calendar.DAY_OF_MONTH, 1)
-        val dateReturn = date.clone() as Calendar
-        dateReturn.add(Calendar.DAY_OF_MONTH, 7)
+        val dateReturn = Calendar.getInstance()
+        dateReturn.add(Calendar.DAY_OF_MONTH, 8)
 
-        var initialState = BookingViewState(adultCounter = 1,
+        val initialState = BookingViewState(adultCounter = 1,
                 dateDeparture = date,
                 dateReturn = dateReturn,
                 counter = 1)
-        var stateObservable = allIntents.scan(initialState, this::viewStateReducer)
+        val stateObservable = allIntents.scan(initialState, this::viewStateReducer)
         subscribeViewState(stateObservable, BookingView::render)
     }
 
     private fun viewStateReducer(previousState: BookingViewState, changes: BookingPartialState): BookingViewState {
         previousState.errorText = null
-
         if(changes is BookingPartialState.NotChanging)
             return previousState
         if (changes is BookingPartialState.SetReturnDate) {
@@ -95,7 +116,7 @@ class BookingPresenter : MviBasePresenter<BookingView, BookingViewState>() {
                     previousState.counter += changes.counter
                 }
             }
-            else if (tmp > 9) previousState.errorText = "Пассажиров должно быть не более 9 человек"
+            else if (tmp > 9) previousState.errorText = context.resources.getString(R.string.max_passengers_warning)
             return previousState
         }
 
@@ -105,7 +126,7 @@ class BookingPresenter : MviBasePresenter<BookingView, BookingViewState>() {
                 previousState.kidCounter += changes.counter
                 previousState.counter += changes.counter
             }
-            else if (tmp > 9) previousState.errorText = "Пассажиров должно быть не более 9 человек"
+            else if (tmp > 9) previousState.errorText = context.resources.getString(R.string.max_passengers_warning)
             return previousState
         }
 
@@ -115,16 +136,16 @@ class BookingPresenter : MviBasePresenter<BookingView, BookingViewState>() {
                 previousState.babyCounter += changes.counter
                 previousState.counter += changes.counter
             }
-            else if (tmp > 9) previousState.errorText = "Пассажиров должно быть не более 9 человек"
+            else if (tmp > 9) previousState.errorText = context.resources.getString(R.string.max_passengers_warning)
             else if (previousState.babyCounter + changes.counter > previousState.adultCounter)
-                previousState.errorText = "Младенцев не должно быть больше, чем взрослых"
+                previousState.errorText = context.resources.getString(R.string.max_baby_warning)
             return previousState
         }
 
         if (changes is BookingPartialState.SetDepartureCity) {
             if (previousState.arriveCity != null) {
                 if (previousState.arriveCity!!.id == changes.city!!.id)
-                    previousState.errorText = "Пункты вылета и прилета совпадают"
+                    previousState.errorText = context.resources.getString(R.string.departure_arrive_warning)
                 else previousState.departureCity = changes.city
             }
             else previousState.departureCity = changes.city
@@ -134,7 +155,7 @@ class BookingPresenter : MviBasePresenter<BookingView, BookingViewState>() {
         if (changes is BookingPartialState.SetArriveCity){
             if (previousState.departureCity != null){
                 if (previousState.departureCity!!.id == changes.city!!.id)
-                    previousState.errorText = "Пункты вылета и прилета совпадают"
+                    previousState.errorText = context.resources.getString(R.string.departure_arrive_warning)
                 else previousState.arriveCity = changes.city
             }
             else previousState.arriveCity = changes.city
